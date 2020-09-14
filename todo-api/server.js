@@ -15,12 +15,9 @@ dotenv.config({
 
 connectDB();
 
-// GET, POST, DELETE, PUT
-app.get('/todo', (req, res) => {
-    res.status(200).json({
-        "name": "bravo"
-    });
-});
+
+// we will get similar URL https://localhost:3000/api/todo/auth/register and check the post request on postman
+app.use('/api/todo/auth', require('./routes/user'));
 
 const PORT = process.env.PORT || 3000;
 
