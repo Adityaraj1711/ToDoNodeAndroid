@@ -9,6 +9,11 @@ const connectDB = require('./config/db');
 const app = express()
 app.use(morgan('dev'));
 
+app.use(express.json({}))
+app.use(express.json({
+    entended:true
+}))
+
 dotenv.config({
     path: './config/config.env'
 });
