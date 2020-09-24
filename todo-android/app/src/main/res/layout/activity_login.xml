@@ -42,6 +42,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="#b4f2f2"
                 android:hint="Enter email .. "
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
@@ -53,6 +54,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="#b4f2f2"
                 android:hint="Enter password .. "
                 android:singleLine="true"
                 android:inputType="textPassword"
@@ -66,9 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
+                android:textColor="#fff"
                 android:textAllCaps="false"
                 android:textSize="20dp"
                 android:id="@+id/loginBtn"
+                android:background="@drawable/input_field"
                 android:layout_marginTop="30dp"/>
             <View
                 android:layout_width="match_parent"
@@ -79,6 +83,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/registerBtn"
                 android:text="Register here"
                 android:textSize="18dp"
                 android:textAllCaps="false"
