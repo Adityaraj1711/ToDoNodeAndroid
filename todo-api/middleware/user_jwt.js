@@ -4,7 +4,7 @@ module.exports = async function(req, res, next){
     // here we will verify if authorization header exists or not
     const token = req.header('Authorization'); // "authorization" is the key set during api, we can set some other name too
     if(!token){
-        return res.json.status(401).json({
+        return res.status(401).json({
             msg:"no token, authorization denied"
         })
     }
