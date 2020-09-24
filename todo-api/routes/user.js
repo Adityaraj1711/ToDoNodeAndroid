@@ -21,7 +21,7 @@ router.get('/', user_jwt, async (req, res, next) => {
         })
         next();
     }
-})
+});
 
 router.post('/register',async (req, res, next) => {
     console.log(req.body);
@@ -68,5 +68,58 @@ router.post('/register',async (req, res, next) => {
     }
 });
 
+
+// for login
+router.post('/login', async(req, res, next) =>{
+    const email = req.body.email;
+    const password = req.body.password;
+    try{
+        let user = await User.findOne({
+            email: email, 
+        });
+        if(!user){
+            res.status(400).json({
+                success: false,
+                msg: "user does not exists. Go and register to continue"
+            })
+        }
+        const isMatch = await bcryptjs.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).json({
+                success: false,
+                msg: "invalid password"
+            });
+        }
+        // will take a payload
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        jwt.sign(
+            payload, process.env.jwtUserSecret, {
+                expiresIn: 360000
+            }, (err, token) => {
+                if(err){
+                    throw err;
+                }
+                res.status(200).json({
+                    success: true,
+                    msg: "user logged in",
+                    token: token,
+                    user: user
+                });
+            }
+        )
+    }
+    catch(err){
+        console.log(err.message);
+        res.status(500).json({
+            success: false,
+            msg: "server error"
+        })
+    }
+});
 
 module.exports = router;
