@@ -78,7 +78,7 @@ router.post('/login', async(req, res, next) =>{
             email: email, 
         });
         if(!user){
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 msg: "user does not exists. Go and register to continue"
             })

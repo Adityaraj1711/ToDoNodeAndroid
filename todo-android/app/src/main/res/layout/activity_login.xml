@@ -46,7 +46,7 @@
                 android:hint="Enter email .. "
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
-                android:id="@+id/email_et"
+                android:id="@+id/email_ET"
                 android:background="@drawable/input_field"
                 android:textColor="#03CFCF"/>
 
@@ -58,7 +58,7 @@
                 android:hint="Enter password .. "
                 android:singleLine="true"
                 android:inputType="textPassword"
-                android:id="@+id/password_et"
+                android:id="@+id/password_ET"
                 android:background="@drawable/input_field"
                 android:textColor="#03CFCF"/>
 
