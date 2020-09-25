@@ -1,7 +1,7 @@
 package com.pictionary.todoapp
 
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -9,14 +9,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pictionary.todoapp.UtilsService.SharedPreferenceClass
 import com.pictionary.todoapp.UtilsService.UtilService
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var loginBtn: Button
@@ -27,11 +30,12 @@ class LoginActivity : AppCompatActivity() {
     lateinit var email: String
     lateinit var password: String
     lateinit var utilService: UtilService
-
+    lateinit var sharedPreferenceClass: SharedPreferenceClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         bindViews()
+        sharedPreferenceClass = SharedPreferenceClass(this)
         registerBtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
                 val intent: Intent = Intent(this@LoginActivity, RegisterActivity::class.java)
@@ -67,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     try {
                         if (response.getBoolean("success")) {
                             val token = response.getString("token")
-//                            sharedPreferenceClass.setValue_string("token", token)
+                            sharedPreferenceClass.setValue_string("token", token)
                             Toast.makeText(this@LoginActivity, token, Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         }
@@ -138,5 +142,15 @@ class LoginActivity : AppCompatActivity() {
             isValid = false
         }
         return isValid
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences =
+            getSharedPreferences("user_todo", Context.MODE_PRIVATE)
+        if (sharedPreferences.contains("token")) {
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
+        }
     }
 }

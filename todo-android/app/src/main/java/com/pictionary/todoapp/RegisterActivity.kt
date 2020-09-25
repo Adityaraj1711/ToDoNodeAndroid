@@ -1,5 +1,6 @@
 package com.pictionary.todoapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +14,7 @@ import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pictionary.todoapp.UtilsService.SharedPreferenceClass
 import com.pictionary.todoapp.UtilsService.UtilService
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,13 +32,13 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var email: String
     lateinit var password: String
     lateinit var utilService: UtilService
-
+    lateinit var sharedPreferenceClass: SharedPreferenceClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         bindViews()
-        setClickListener()
 
+        setClickListener()
     }
 
     private fun setClickListener() {
@@ -74,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                     try {
                         if (response.getBoolean("success")) {
                             val token = response.getString("token")
-//                            sharedPreferenceClass.setValue_string("token", token)
+                            sharedPreferenceClass.setValue_string("token", token)
                             Toast.makeText(this@RegisterActivity, token, Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
                         }
@@ -131,6 +133,7 @@ class RegisterActivity : AppCompatActivity() {
         registerBtn = findViewById(R.id.registerBtn)
         progressBar = findViewById(R.id.progress_bar)
         utilService = UtilService()
+        sharedPreferenceClass = SharedPreferenceClass(this)
     }
 
     fun validate(view: View?): Boolean{
@@ -152,5 +155,15 @@ class RegisterActivity : AppCompatActivity() {
             isValid = false
         }
         return isValid
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences =
+            getSharedPreferences("user_todo", Context.MODE_PRIVATE)
+        if (sharedPreferences.contains("token")) {
+            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+            finish()
+        }
     }
 }
