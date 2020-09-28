@@ -23,6 +23,7 @@ connectDB();
 
 // we will get similar URL https://localhost:3000/api/todo/auth/register and check the post request on postman
 app.use('/api/todo/auth', require('./routes/user'));
+app.use('/api/todo', require('./routes/todo'));
 
 const PORT = process.env.PORT || 3000;
 
