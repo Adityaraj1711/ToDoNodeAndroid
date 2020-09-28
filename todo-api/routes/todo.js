@@ -26,5 +26,21 @@ router.post('/', auth, async (req, res, next) => {
     }
 })
 
+// desc Fetch all ToDos
+// method GET
+
+router.get('/', auth, async(req, res, next) => {
+    try{
+        const todo = await Todo.find({user: req.user.id, finished: false});
+
+        if(!todo){
+            return res.status(400).json({success: false, msg: "error happened"});
+        }
+        res.status(200).json({success: true, count: todo.length, todos: todo ,msg: "Successfully fetched"});
+    }
+    catch(error){
+        next(error);
+    }
+})
 
 module.exports = router;
