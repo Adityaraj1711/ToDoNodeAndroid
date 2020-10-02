@@ -43,6 +43,22 @@ router.get('/', auth, async(req, res, next) => {
     }
 })
 
+// fetch all finished task
+router.get('/finished', auth, async(req, res, next) => {
+    try{
+        const todo = await Todo.find({user: req.user.id, finished: true});
+
+        if(!todo){
+            return res.status(400).json({success: false, msg: "error happened"});
+        }
+        res.status(200).json({success: true, count: todo.length, todos: todo ,msg: "Successfully fetched"});
+    }
+    catch(error){
+        next(error);
+    }
+})
+
+
 router.put('/:id', auth, async(req, res, next) =>{
     try{
         var params = req.params;
